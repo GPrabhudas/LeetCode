@@ -19,18 +19,18 @@ class MinStack {
         } else {
             // 4. push val in s
             s.push(val);
-            // 5. push min(ms.top(), val) to ms
-            if(val < ms.peek()) {
+            // 5. push only if current val is less or equal to top of min stack
+            if(val <= ms.peek()) {
                 ms.push(val);
-            } else {
-                ms.push(ms.peek());
             }
         }
     }
     
     public void pop() {
-        s.pop();
-        ms.pop();
+        int val = s.pop();
+        if(val == ms.peek()) {
+            ms.pop();
+        }
     }
     
     public int top() {
