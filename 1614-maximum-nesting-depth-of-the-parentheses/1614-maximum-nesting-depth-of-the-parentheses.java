@@ -1,3 +1,6 @@
+/*
+The depth of any character in the VPS is the ( number of left brackets before it ) - ( number of right brackets before it )
+*/
 class Solution {
     public int maxDepth(String str) {
         Stack<Character> s = new Stack<>();
