@@ -1,47 +1,72 @@
 class Solution {
     public List<Integer> intersection(int[][] nums) {
-        int numOfArrays = nums.length;
-        
-        int largestArray = 0;
-        
-        // create map for each array and use value as key
-        List<Map<Integer, Boolean>> arrMap = new ArrayList<>();
-        for(int i = 0; i< numOfArrays; i++) {
-            // create map
-            Map<Integer, Boolean> m = new HashMap<>();
-            
-            for(int num : nums[i]) {
-                m.put(num, true);
-            }
-            
-            // add map to list
-            arrMap.add(m);
-            
-            if(nums[i].length > nums[largestArray].length) {
-                largestArray = i;
-            }
+        // sort all individual arrays
+        for(int[] arr : nums) {
+            Arrays.sort(arr);
         }
         
+        // find the intersections
         List<Integer> res = new ArrayList<>();
         
-        // check for intersection
-        for(int num : nums[largestArray]) {
-            
-            // check if current element is intersection
-            boolean isIntersection = true;
-            for(Map<Integer, Boolean> m : arrMap) {
-                if(!m.containsKey(num)) {
-                    isIntersection = false;
-                    break;
-                }
-            }
-            
-            if(isIntersection) {
-                res.add(num);
+        int[] pointers = new int[nums.length];
+        
+        boolean completed = false;
+        
+        while(!isEmpty(pointers, nums)) {
+            // check for intersection
+            if(isIntersection(pointers, nums)) {
+                res.add(nums[0][pointers[0]]);
+                
+                // increment pointers
+                movePointers(pointers);
+            } else {
+                // move pointer with smallest value
+                moveSmallestPointer(pointers, nums);
             }
         }
         
-        Collections.sort(res);
         return res;
+    }
+    
+    private void movePointers(int []pointers) {
+        for(int i = 0; i < pointers.length; i++) {
+            pointers[i]++;
+        }
+    }
+    
+    private void moveSmallestPointer(int []pointers, int [][] nums) {
+        int small = nums[0][pointers[0]];
+        int smallIndex = 0;
+        
+        for(int i = 1; i < pointers.length; i++) {
+            if(nums[i][pointers[i]] < small) {
+                small = nums[i][pointers[i]];
+                smallIndex = i;
+            }
+        }
+        pointers[smallIndex]++;
+    }
+    
+    private boolean isIntersection(int []pointers, int [][] nums) {
+        // check current value is intersection
+        int curr = nums[0][pointers[0]];
+        
+        for(int i = 1; i < pointers.length; i++) {
+            if(nums[i][pointers[i]] != curr) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean isEmpty(int[] pointers, int [][]nums) {
+        // if any array returns end, then no need to find intersection further
+        for(int i = 0; i < pointers.length; i++) {
+            if(pointers[i] >= nums[i].length) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 }
