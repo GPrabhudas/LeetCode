@@ -35,8 +35,6 @@ class Solution {
         // 2.2 Not a leaf node, we may need to build left and right subtrees
         int rightTreeIndex = getRightSubTreeIndex(nums, l, r);
         
-        System.out.println(l +", " + r + ", " + rightTreeIndex);
-        
         // 2.3 left subtree is in the range [l+1, rightTreeIndex - 1]
         root.left = buildTree(nums, l+1, rightTreeIndex - 1);
         
