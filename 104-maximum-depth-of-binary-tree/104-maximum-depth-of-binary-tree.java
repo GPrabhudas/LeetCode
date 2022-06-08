@@ -18,13 +18,7 @@ class Solution {
         // no depth for node nodes
         if(root == null) return 0;
         
-        // get depth of the left subtree
-        int left = 1 + maxDepth(root.left);
-        
-        // get depth of the right subtree
-        int right = 1 + maxDepth(root.right);
-        
-        // return max of two
-        return Math.max(left, right);
+        // return max of depths from left and right subtree
+        return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
     }
 }
