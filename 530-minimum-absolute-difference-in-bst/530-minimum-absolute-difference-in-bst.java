@@ -14,23 +14,21 @@
  * }
  */
 class Solution {
+    int ans = Integer.MAX_VALUE;
+    TreeNode prev = new TreeNode(Integer.MAX_VALUE);
+    
     public int getMinimumDifference(TreeNode root) {
-        List<Integer> nodes = new ArrayList<>();
-        inorder(root, nodes);
-        if(nodes.size() == 2) return Math.abs(nodes.get(0) - nodes.get(1));
-        int min = Integer.MAX_VALUE;
-        for(int i = 1; i < nodes.size() - 1; i++) {
-            int currMin = Math.min(Math.abs(nodes.get(i -1) -nodes.get(i)), Math.abs(nodes.get(i) - nodes.get(i + 1)));
-            min = Math.min(min, currMin);
-        }
-        
-        return min;
+        /*Minimum difference will be always from two nearest elements. We can use inorder traversal two find two nearest elements.*/ 
+        // dummy node to store previous node
+        inorder(root);
+        return ans;
     }
     
-    private void inorder(TreeNode root, List<Integer> nodes ) {
+    private void inorder(TreeNode root) {
         if(root == null) return;
-        inorder(root.left, nodes);
-        nodes.add(root.val);
-        inorder(root.right, nodes);
+        inorder(root.left);
+        ans = Math.min(ans, Math.abs(prev.val - root.val));
+        prev = root;
+        inorder(root.right);
     }
 }
