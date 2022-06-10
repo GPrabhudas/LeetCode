@@ -15,7 +15,7 @@
  */
 class Solution {
     int ans = Integer.MAX_VALUE;
-    TreeNode prev = new TreeNode(Integer.MAX_VALUE);
+    TreeNode prev = null;
     
     public int getMinimumDifference(TreeNode root) {
         /*Minimum difference will be always from two nearest elements. We can use inorder traversal two find two nearest elements.*/ 
@@ -27,7 +27,7 @@ class Solution {
     private void inorder(TreeNode root) {
         if(root == null) return;
         inorder(root.left);
-        ans = Math.min(ans, Math.abs(prev.val - root.val));
+        if(prev != null) ans = Math.min(ans, root.val - prev.val);
         prev = root;
         inorder(root.right);
     }
